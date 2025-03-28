@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聯繫我們-校論彈</title>
+    <style>
+        /* 全局樣式 */
+        * {
+            margin: 30;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #BFBDB4;
+            color: #333;
+        }
+
+        /* 頂部導航欄 */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background-color:#F2F2EB;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        header .logo {
+            font-size: 3rem; /* 增大標題字體 */
+            font-weight: bold;
+            text-transform: uppercase; /* 全部大寫（可選） */
+            letter-spacing: 4px; /* 增加字距 */
+            font-family: 'Poppins', sans-serif; /* 替換字體 */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* 增加陰影 */
+            background: linear-gradient(to right,  #BF9999, #1F818C); /* 漸變色 */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        header .nav-icons a {
+            margin-left: 15px;
+            font-size: 1.2rem;
+            color: #555;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        header .nav-icons a:hover {
+            color: #1877f2;
+        }
+
+        /* 主容器 */
+        .container {
+            display: flex;
+            margin-top: 60px; /* 確保不被導航欄遮住 */
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #F2F2EB;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+            height: 100vh;
+            position: fixed;
+            top: 60px;
+            left: 0;
+        }
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            color: #555;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+        .sidebar a:hover {
+            color: #000000;
+        }
+        .sidebar a span {
+            margin-left: 10px;
+        }
+
+        .content {
+            margin-left: 270px;
+            flex: 1;
+            padding: 20px;
+        }
+        header .logo:hover {
+            transform: scale(1.1); /* 滑鼠移過去時稍微放大 */
+            color: #423530; /* 滑鼠移過去變咖色 */
+        }
+        /* 聊天框樣式 */
+        .chat-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #F2F2EB;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+        }
+        .chat-header {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            background: #f0f0f0;
+        }
+        .message {
+            margin: 10px 0;
+        }
+        .message.user {
+            text-align: right;
+        }
+        .message.ai {
+            text-align: left;
+        }
+        .message span {
+            display: inline-block;
+            padding: 8px 12px;
+            border-radius: 15px;
+            background-color:  #1F818C;
+            color: white;
+            margin-bottom: 5px;
+        }
+        .message.ai span {
+            background-color: #ddd;
+            color: #333;
+        }
+        .chat-input {
+            display: flex;
+            margin-top: 10px;
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .chat-input button {
+            margin-left: 10px;
+            padding: 10px;
+            font-size: 16px;
+            background-color:  #1F818C;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .chat-input button:hover {
+            background-color: #15717b;
+        }
+.post-button {
+    display: inline-block;
+    background: linear-gradient(to right,#0D0D0D, #1F818C); /* 漸變色 */
+    color: white;
+    padding: 12px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, background 0.3s;
+}
+
+.post-button:hover {
+    transform: scale(1.1);
+    background: linear-gradient(to right, #1F818C, #BF9999);
+}
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height:95vh; /* sidebar 佔滿整個畫面高度 */
+    padding: 20px;
+}
+
+/* 發布文章區塊 */
+.post-section {
+    margin-bottom: 10px; /* 與下方選單保持間距 */
+    text-align: center;
+}
+
+.post-button {
+    display: block;
+    background: #F2F2EB; /* 背景 */
+    color: #BF9999; /* 字體 */
+    padding: 15px 20px;
+    border: 2px solid #BF9999; /* 增加邊框 */
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, background 0.3s;
+}
+
+.post-button:hover {
+    transform: scale(1.1);
+    background: #BF9999; /* 懸停時加深 */
+}
+
+
+.post-button:hover {
+    transform: scale(1.1);
+    background: linear-gradient(to right, #BF9999, #F2F2EB);
+}
+
+/* 遊戲 & 聯繫我們區塊 */
+.bottom-section {
+    margin-top: auto; /* 讓這部分固定在 sidebar 的底部 */
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.logo {
+            
+    height: 90px; /* 讓 header 的高度保持一致 */
+    }
+.logo-img {
+    height: 110%; /* 讓圖片自適應 header 高度 */
+    object-fit: contain; /* 確保圖片不變形 */
+    }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="LOGO.png" alt="校論壇Logo" class="logo-img">
+        </div>
+    </header>
+    <div class="container">
+        <div class="sidebar">
+            <!-- 發布文章：獨立的顯眼按鈕 -->
+            <div class="post-section">
+                <a href="./popo.html" class="post-button">✍️ 發佈貼文 ✍️</a>
+            </div>
+        
+            <!-- 其他功能放底部 -->
+            <div class="bottom-section">
+                <a href="https://www.tncvs.tn.edu.tw/" target="_blank">TNCVS 學校網站</a>
+                <a href="https://scratch.mit.edu/projects/1079980164/" target="_blank">GAME 服儀大逃殺</a>
+                <a href="https://scratch.mit.edu/projects/1133626240/" target="_blank">GAME 躲避整潔評分員</a>
+                <a href="index.html"><span>回到首頁</span></a>
+            </div>
+        </div>
+        <div class="content">
+            <div class="chat-container">
+                <div class="chat-header">聯繫我們</div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message ai"><span>您好，有什麼是我可以幫助您的？</span></div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="userInput" placeholder="請輸入訊息...">
+                    <button onclick="sendMessage()">發送</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function sendMessage() {
+            const userInput = document.getElementById('userInput');
+            const chatMessages = document.getElementById('chatMessages');
+    
+            if (userInput.value.trim() !== "") {
+                // 顯示使用者訊息
+                const userMessage = document.createElement('div');
+                userMessage.classList.add('message', 'user');
+                userMessage.innerHTML = `<span>${userInput.value}</span>`;
+                chatMessages.appendChild(userMessage);
+    
+                // 獲取 AI 回應
+                const aiReply = getAIReply(userInput.value);
+    
+                // 顯示 AI 回應
+                const aiMessage = document.createElement('div');
+                aiMessage.classList.add('message', 'ai');
+                aiMessage.innerHTML = `<span>${aiReply}</span>`;
+                chatMessages.appendChild(aiMessage);
+    
+                // 滾動到底部
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+    
+                // 清空輸入框
+                userInput.value = "";
+            }
+        }
+    
+        function getAIReply(userText) {
+            userText = userText.toLowerCase(); // 轉小寫，避免大小寫影響判斷
+    
+            const responses = {
+                "你好": "你好！有什麼問題嗎？😊",
+                "價格": "我們的服務是免費的哦！🎉",
+                "聯絡": "您可以透過我們的 Email:schoolchatbounce@gmail.com 聯絡我們 📩",
+                "功能": "目前支援聊天室、貼文發布與遊戲功能哦！",
+                "遊戲": "我們有兩款遊戲：服儀大逃殺 & 躲避整潔評分員 🎮",
+                "謝謝": "不客氣！有問題隨時問我 😃",
+            };
+    
+            // 根據關鍵字選擇回應，若沒有則回覆預設內容
+            for (let keyword in responses) {
+                if (userText.includes(keyword)) {
+                    return responses[keyword];
+                }
+            }
+            return "抱歉，我不太明白您的問題，可以換個說法嗎？🤔";
+        }
+    </script>
+    
+    </body>
+    </html>
+    

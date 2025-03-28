@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首頁-校論彈</title>
+    <style>
+        /* 全局樣式 */
+        * {
+            margin: 30;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #BFBDB4;
+            color: #333;
+        }
+
+
+        /* 頂部導航欄 */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background-color: #F2F2EB;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        header .logo {
+            font-size: 3rem;
+            /* 增大標題字體 */
+            font-weight: bold;
+            text-transform: uppercase;
+            /* 全部大寫（可選） */
+            letter-spacing: 4px;
+            /* 增加字距 */
+            font-family: 'Poppins', sans-serif;
+            /* 替換字體 */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            /* 增加陰影 */
+            background: linear-gradient(to right, #BF9999, #1F818C);
+            /* 漸變色 */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header .nav-icons a {
+            margin-left: 15px;
+            font-size: 1.2rem;
+            color: #555;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        header .nav-icons a:hover {
+            color: #1877f2;
+        }
+
+        /* 主容器 */
+        .container {
+            display: flex;
+            margin-top: 60px;
+            /* 確保不被導航欄遮住 */
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #F2F2EB;
+            /*左側功能整條的顏色*/
+            padding: 20px;
+            border-right: 1px solid #ddd;
+            height: 100vh;
+            position: fixed;
+            top: 60px;
+            left: 0;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            color: #555;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        .sidebar a:hover {
+            color: #000000;
+            /*左側功能點擊顏色*/
+        }
+
+        .sidebar a span {
+            margin-left: 10px;
+        }
+
+        .content {
+            margin-left: 270px;
+            flex: 1;
+            padding: 20px;
+        }
+
+        header .logo:hover {
+            transform: scale(1.1);
+            /* 滑鼠移過去時稍微放大 */
+            color: #423530;
+            /* 滑鼠移過去變咖色 */
+        }
+
+        /* 貼文卡片 */
+        .post {
+            background-color: #ffddb3;
+            /*右側發布文章底的顏色*/
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .post-header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .post-header .username {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .post-content {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: left;
+            /*按鈕左右位置*/
+            gap: 20px;
+            /*調整文字間距*/
+        }
+
+        .post-actions button {
+            background: none;
+            border: none;
+            color: #555;
+            cursor: pointer;
+            /*游標移過去時顯示可點擊*/
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            /*相交軸上彈性項目的對齊位置-文字上下*/
+            transition: color 0.3s;
+
+        }
+
+        .post-actions button:hover {
+            color: #1F818C;
+        }
+
+        .post-actions button svg {
+            margin-right: 5px;
+            /*設定元素與元素之間的邊界間距(旁邊的小小三角形)*/
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            /* 讓上方和下方區塊保持間距 */
+            height: 65vh;
+            /* 讓 sidebar 佔滿整個畫面高度 */
+        }
+
+        .top-section {
+            margin-bottom: 200px;
+            /* 確保「發布文章」與底部有間距 */
+        }
+
+        .bottom-section {
+            margin-top: auto;
+            /* 讓這部分固定在 sidebar 的底部 */
+            display: flex;
+            flex-direction: column;
+            gap: 0px;
+            /* 讓遊戲和聯繫我們的連結有間距 */
+        }
+
+        .post-button-container {
+            position: absolute;
+            top: 80px;
+            /* 讓它不被 header 擋住 */
+            right: 20px;
+            /* 固定在右上角 */
+        }
+
+        .post-button {
+            display: inline-block;
+            background: linear-gradient(to right, #0D0D0D, #1F818C);
+            /* 漸變色 */
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, background 0.3s;
+        }
+
+        .post-button:hover {
+            transform: scale(1.1);
+            background: linear-gradient(to right, #1F818C, #BF9999);
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 95vh;
+            /* sidebar 佔滿整個畫面高度 */
+            padding: 20px
+        }
+
+        /* 發布文章區塊 */
+        .post-section {
+            margin-bottom: 10px;
+            /* 與下方選單保持間距 */
+            text-align: center;
+        }
+
+        .post-button {
+            display: block;
+            background: #F2F2EB;
+            /* 背景 */
+            color: #BF9999;
+            /* 字體 */
+            padding: 15px 20px;
+            border: 2px solid #BF9999;
+            /* 增加邊框 */
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, background 0.3s;
+        }
+
+        .post-button:hover {
+            transform: scale(1.1);
+            background: #1F818C;
+            /* 懸停時加深 */
+        }
+
+
+        .post-button:hover {
+            transform: scale(1.1);
+            background: linear-gradient(to right, #BF9999, #F2F2EB);
+        }
+
+        /* 遊戲 & 聯繫我們區塊 */
+        .bottom-section {
+            margin-top: auto;
+            /* 讓這部分固定在 sidebar 的底部 */
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        /* 表單樣式 */
+        .upload-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin: 50px auto;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+
+        input[type="text"],
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            border-color: #d3b27c;
+            background-color: #fff;
+            outline: none;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.875rem;
+            margin-top: 5px;
+            display: none;
+            /* 默认隐藏 */
+        }
+
+        .btn {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            background-color: #1F818C;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #1F818C;
+        }
+        .logo {
+             height: 90px; /* 讓 header 的高度保持一致 */
+        }
+
+        .logo-img {
+            height: 110%; /* 讓圖片自適應 header 高度 */
+            object-fit: contain; /* 確保圖片不變形 */
+        }
+    </style>
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="LOGO.png" alt="校論壇Logo" class="logo-img">
+        </div>
+    </header>
+    <div class="container">
+        <div class="sidebar">
+            <div class="post-section">
+                <a href="index.html" class="post-button">👀 回到首頁 👀</a>
+            </div>
+
+            <!-- 其他功能放底部 -->
+            <div class="bottom-section">
+                <a href="https://www.tncvs.tn.edu.tw/" target="_blank">TNCVS 學校網站</a>
+                <a href="https://scratch.mit.edu/projects/1079980164/" target="_blank">GAME 服儀大逃殺</a>
+                <a href="https://scratch.mit.edu/projects/1133626240/" target="_blank">GAME 躲避整潔評分員</a>
+                <a href="./socallmemaybe.html"><span>聯繫我們</span></a>
+            </div>
+        </div>
+        <div class="content">
+            <div class="upload-container">
+                <h2>上傳內容</h2>
+                <form id="upload-form" action="#" method="POST" enctype="multipart/form-data">
+                    <!-- 文字輸入 -->
+                    <div class="form-group">
+                        <label for="text-input">文字輸入</label>
+                        <input type="text" id="text-input" name="textInput" placeholder="輸入您的文字...">
+                        <div id="text-error" class="error-message">請輸入文字</div>
+                    </div>
+
+                    <!-- 上傳圖片 -->
+                    <div class="form-group">
+                        <label for="image-upload">上傳圖片</label>
+                        <input type="file" id="image-upload" name="imageUpload" accept="image/*">
+                        <div id="image-error" class="error-message">請選擇圖片檔案</div>
+                    </div>
+
+                    <!-- 上傳文檔 -->
+                    <div class="form-group">
+                        <label for="document-upload">上傳文檔</label>
+                        <input type="file" id="document-upload" name="documentUpload" accept=".pdf,.doc,.docx,.txt">
+                        <div id="document-error" class="error-message">請選擇文檔</div>
+                    </div>
+
+                    <!-- 提交按鈕 -->
+                    <button type="submit" class="btn">提交</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('upload-form');
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault(); // 防止表單默認提交
+
+            // 獲取輸入值
+            const textInput = document.getElementById('text-input').value.trim();
+            const imageUpload = document.getElementById('image-upload').files[0];
+            const documentUpload = document.getElementById('document-upload').files[0];
+
+            // 清除之前的錯誤訊息
+            document.getElementById('text-error').style.display = 'none';
+            document.getElementById('image-error').style.display = 'none';
+            document.getElementById('document-error').style.display = 'none';
+
+            let isValid = true;
+
+            // 檢查文字輸入
+            if (!textInput && !imageUpload && !documentUpload) {
+                document.getElementById('text-error').textContent = "請至少填寫文字或上傳檔案";
+                document.getElementById('text-error').style.display = 'block';
+                isValid = false;
+            }
+
+            // 如果驗證通過
+            if (isValid) {
+                console.log("文字輸入:", textInput || "未填寫");
+                console.log("圖片檔案:", imageUpload || "未選擇");
+                console.log("文檔:", documentUpload || "未選擇");
+                alert("提交成功！");
+            }
+        });
+    </script>
+
+    <script type="module">
+        // Firebase 配置
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+
+            const firebaseConfig = {
+  apiKey: "AIzaSyCbprmlxDXnSNQgq2Xbe_K3NJFai-LcBPY",
+  authDomain: "scb0-79733.firebaseapp.com",
+  projectId: "scb0-79733",
+  storageBucket: "scb0-79733.firebasestorage.app",
+  messagingSenderId: "44605681643",
+  appId: "1:44605681643:web:a11148755389bd856833ae"
+};
+             
+          
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        document.getElementById('upload-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const textInput = document.getElementById('text-input').value.trim();
+            const imageUpload = document.getElementById('image-upload').files[0];
+
+            if (!textInput && !imageUpload) {
+                alert("請至少輸入文字或上傳圖片！");
+                return;
+            }
+
+            let imageUrl = "";
+
+            if (imageUpload) {
+                const reader = new FileReader();
+                reader.onload = async function (e) {
+                    imageUrl = e.target.result;
+                    await saveToDatabase(textInput, imageUrl);
+                };
+                reader.readAsDataURL(imageUpload);
+            } else {
+                await saveToDatabase(textInput, imageUrl);
+            }
+        });
+
+        async function saveToDatabase(text, imageUrl) {
+            await addDoc(collection(db, "posts"), {
+                text: text,
+                imageUrl: imageUrl,
+                timestamp: new Date()
+            });
+            window.location.href = "homepage221.html";
+        }
+
+    </script>
+
+</body>
+
+</html>
